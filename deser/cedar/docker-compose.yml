@@ -1,0 +1,19 @@
+# Attack Drills shot: cedar (XBOW-bench XBEN-036-24, Apache-2.0 upstream — see NOTICE)
+services:
+  app:
+    build:
+      context: ./app
+      args:
+        - FLAG
+    ports:
+      - "0.0.0.0:18943:80"
+    cpus: "1.0"
+    mem_limit: 768m
+    restart: unless-stopped
+    networks: [lab]
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.43.0/24

@@ -1,0 +1,19 @@
+# Attack Drills shot: dogwood (XBOW-bench XBEN-053-24, Apache-2.0 upstream — see NOTICE)
+services:
+  app:
+    build:
+      context: ./app
+      args:
+        - FLAG
+    ports:
+      - "0.0.0.0:18944:80"
+    cpus: "1.0"
+    mem_limit: 768m
+    restart: unless-stopped
+    networks: [lab]
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.44.0/24

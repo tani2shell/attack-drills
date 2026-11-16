@@ -1,0 +1,32 @@
+services:
+  locust:
+    build:
+      context: ./app
+      args:
+        FLAG: ${FLAG:?FLAG build arg required — cp .env.example .env}
+    container_name: locust
+    restart: unless-stopped
+    ports:
+      - "18956:80"
+    networks:
+      net_locust:
+        ipv4_address: 172.31.28.18
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1:80/ping || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 768M
+          pids: 256
+
+networks:
+  net_locust:
+    ipam:
+      config:
+        - subnet: 172.31.28.16/28
+          gateway: 172.31.28.17

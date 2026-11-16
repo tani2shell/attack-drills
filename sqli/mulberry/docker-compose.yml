@@ -1,0 +1,64 @@
+services:
+  db_mulberry:
+    build:
+      context: ./mysql
+    container_name: db_mulberry
+    restart: unless-stopped
+    # Build-portability fix (Apple Silicon): MySQL 5.7 amd64 images run via Rosetta
+    # emulation, whose libc rejects the default cgroup memory limit — lift it via env.
+    environment:
+      - MALLOC_ARENA_MAX=2
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    networks:
+      net_mulberry:
+        ipv4_address: 172.31.28.98
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1280M
+          pids: 256
+
+  mulberry:
+    build:
+      context: ./app
+      args:
+        FLAG: ${FLAG:?FLAG build arg required — cp .env.example .env}
+    container_name: mulberry
+    restart: unless-stopped
+    ports:
+      - "18961:80"
+    environment:
+      MYSQL_HOST: db_mulberry
+      MYSQL_USER: ctfuser
+      MYSQL_PASSWORD: MyPass1234
+      MYSQL_DATABASE: ctf
+    depends_on:
+      db_mulberry:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1/index.php -o /dev/null || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    networks:
+      net_mulberry:
+        ipv4_address: 172.31.28.99
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 768M
+          pids: 256
+
+networks:
+  net_mulberry:
+    ipam:
+      config:
+        - subnet: 172.31.28.96/28
+          gateway: 172.31.28.97

@@ -1,0 +1,8 @@
+.env
+.env.local
+*.flag
+audit-key*.json
+logs/
+*.log
+.DS_Store
+__pycache__/

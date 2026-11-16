@@ -1,0 +1,67 @@
+services:
+  db:
+    image: mysql:5.7
+    platform: linux/amd64  # no arm64 manifest for 5.7 — runs via Rosetta on Apple Silicon
+    container_name: db_rowan
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass_rowan
+      MYSQL_DATABASE: blogDB
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: UTC
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass_rowan"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    networks:
+      net_rowan:
+        ipv4_address: 172.31.252.18
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1280M
+          pids: 256
+
+  rowan:
+    build:
+      context: ./app
+      args:
+        FLAG: ${FLAG:?FLAG build arg required — cp .env.example .env}
+    container_name: rowan
+    restart: unless-stopped
+    ports:
+      - "18979:80"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: blogDB
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1/index.php -o /dev/null || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    networks:
+      net_rowan:
+        ipv4_address: 172.31.252.19
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 768M
+          pids: 256
+
+networks:
+  net_rowan:
+    ipam:
+      config:
+        - subnet: 172.31.252.16/28
+          gateway: 172.31.252.17

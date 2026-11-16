@@ -1,0 +1,13 @@
+Attack Drills — series packaging
+Copyright (c) 2026 Attack Drills series maintainers (MIT)
+
+App sources in this repository are benchmarks derived from
+xbow-engineering/validation-benchmarks (https://github.com/xbow-engineering/validation-benchmarks),
+Copyright XBOW USA Inc., licensed under the Apache License, Version 2.0.
+The full Apache-2.0 text is included as LICENSE-APACHE-2.0.txt.
+
+Derived-work notes: build files carry small build-portability fixes for
+Apple Silicon / current apt pools (marked in comments); challenge flags are
+re-planted with the series house format and published in SOLUTION.md.
+The five XBEN-* shots (alder/birch/cedar/dogwood/elder) were originally
+published as tani2shell/xbow-ammobox-lab and migrated into this repo.

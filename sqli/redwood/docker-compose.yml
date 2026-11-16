@@ -1,0 +1,60 @@
+services:
+  db:
+    build:
+      context: ./mysql
+      args:
+        FLAG: ${FLAG:?FLAG build arg required — cp .env.example .env}
+    container_name: db_redwood
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: redwood_db_root_2026
+      MYSQL_DATABASE: challenge
+      MYSQL_USER: challenge
+      MYSQL_PASSWORD: challenge
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-predwood_db_root_2026"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    networks:
+      net_redwood:
+        ipv4_address: 172.31.252.34
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1280M
+          pids: 256
+
+  redwood:
+    build:
+      context: ./app
+    container_name: redwood
+    restart: unless-stopped
+    ports:
+      - "18980:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1/ -o /dev/null || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 40s
+    networks:
+      net_redwood:
+        ipv4_address: 172.31.252.35
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 768M
+          pids: 256
+
+networks:
+  net_redwood:
+    ipam:
+      config:
+        - subnet: 172.31.252.32/28
+          gateway: 172.31.252.33

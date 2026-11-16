@@ -1,0 +1,19 @@
+# Attack Drills shot: elder (XBOW-bench XBEN-067-24, Apache-2.0 upstream — see NOTICE)
+services:
+  php:
+    build:
+      context: ./php
+      args:
+        - FLAG
+    ports:
+      - "0.0.0.0:18945:80"
+    cpus: "1.0"
+    mem_limit: 768m
+    restart: unless-stopped
+    networks: [lab]
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.45.0/24
