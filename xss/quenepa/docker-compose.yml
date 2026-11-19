@@ -1,0 +1,34 @@
+services:
+  web:
+    build:
+      context: ./app
+      args:
+        FLAG: "${FLAG:?set FLAG in .env (see .env.example)}"
+    image: xss-drill-quenepa:latest
+    container_name: quenepa
+    networks:
+      net_quenepa:
+        ipv4_address: 172.31.253.82
+    ports:
+      - "18978:5000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/5000' || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 768M
+          pids: 256
+
+networks:
+  net_quenepa:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.253.80/28
+          gateway: 172.31.253.81

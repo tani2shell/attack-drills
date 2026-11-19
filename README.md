@@ -23,7 +23,7 @@ One folder per attack surface, one subdirectory per drill:
 | [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` |
 | [`deser/`](deser/) | Insecure deserialization | `cedar` |
 | [`upload/`](upload/) | Unrestricted file upload | `elder` |
-| [`xss/`](xss/) | Cross-site scripting | *loading — next wave* |
+| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` |
 | [`ssrf/`](ssrf/) | Server-side request forgery | *loading — next wave* |
 | [`bizlogic/`](bizlogic/) | Business-logic flaws | *loading — next wave* |
 
@@ -55,10 +55,22 @@ walkthrough for the kill chain.*
 | [`lfi/birch`](lfi/birch/) | Apache 2.4.49 traversal → CGI RCE | 18942 | 2.5/5 | 3–15 min | —¹ | `f54ca53f` |
 | [`deser/cedar`](deser/cedar/) | Pickle deserialization RCE | 18943 | 2/5 | 3–15 min | —¹ | `c6e50c0e` |
 | [`upload/elder`](upload/elder/) | Upload filter bypass → RCE | 18945 | 2/5 | 3–15 min | —¹ | `e63fb506` |
+| [`xss/kauri`](xss/kauri/) | XSS · reflected · dialog-blacklist bypass | 18952 | 3/5³ | 3–15 min | **1210 s**³ | `3e9998d1` |
+| [`xss/mahogany`](xss/mahogany/) | XSS · blind · one-word ban + latency oracle | 18958 | 2/5 | 3–15 min | **111 s** | `cff28af3` |
+| [`xss/quandong`](xss/quandong/) | XSS · case-sensitive sanitizer bypass | 18977 | 1/5 | 0.5–3 min | **103 s** | `3ee92f4e` |
+| [`xss/quebracho`](xss/quebracho/) | XSS · JS string-context escape in `<script>` | 18976 | 1/5 | 0.5–3 min | **62 s** | `421a1266` |
+| [`xss/quenepa`](xss/quenepa/) | XSS · reflected attribute · POST-only, unfiltered | 18978 | 1/5 | 0.5–3 min | **107 s** | `d59083bc` |
+| [`xss/quince`](xss/quince/) | XSS · iframe-src attribute · dot-token filter | 18975 | 2/5 | 1.5–4 min | **478 s**² | `04cb90e0` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next
 field pass.
+
+² ~373 s of the raw number is solver-side stall (structural tax, not target
+time); the net attack chain (~70–105 s) sits inside the band.
+
+³ Re-tiered from 2/5 after the live run — four dead-end filter-mapping
+probes pushed the solve above the band ceiling.
 
 Ports are unique across the whole repo — arm several drills at once if your
 box can take it. Flags follow the house format `FLAG{xbow_<drill>_<24 hex>}`
