@@ -1,8 +1,8 @@
 # Path traversal / file inclusion drills
 
-| Drill | Angle | Port | Notes |
+| Drill | One-line | Port | Notes |
 |---|---|---|---|
-| [`birch`](birch/) | Stock Apache 2.4.49 — `.%2e` traversal → CGI RCE | 18942 | known-CVE era box, no custom code |
+| [`birch`](birch/) | Path-traversal practice drill — stock Apache 2.4.49 `.%2e` traversal (CVE-2021-41773 era) escalated to CGI RCE. | 18942 | known-CVE era box, no custom code |
 
 Arm: `cd birch && cp .env.example .env && docker compose up -d --build`,
 then `./RESET.sh` restores factory state (it health-gates the CGI execution
