@@ -1,8 +1,8 @@
 # Deserialization drills
 
-| Drill | Angle | Port | Notes |
+| Drill | One-line | Port | Notes |
 |---|---|---|---|
-| [`cedar`](cedar/) | Python pickle on untrusted bytes → RCE | 18943 | the vulnerable snippet is printed on the page; a decoy guards the flag |
+| [`cedar`](cedar/) | Deserialization practice drill — forge a malicious Python pickle into untrusted input for RCE; a decoy guards the flag. | 18943 | the vulnerable snippet is printed on the page; a decoy guards the flag |
 
 Arm: `cd cedar && cp .env.example .env && docker compose up -d --build`,
 then `./RESET.sh` restores factory state.
