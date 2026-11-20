@@ -9,6 +9,8 @@ YAML cookie.
 | [`cedar`](cedar/) | Deserialization practice drill — forge a malicious Python pickle into untrusted input for RCE; a decoy guards the flag. | 18943 | —¹ |
 | [`ebony`](ebony/) | Deserialization practice drill - the remember-me cookie is a serialized PHP object trusted without question. | 19029 | 192 s |
 | [`elm`](elm/) | Deserialization practice drill - the bookmarks cookie is loaded with the full YAML loader, object tags and all. | 19030 | 556 s |
+| [`empress`](empress/) | Deserialization practice drill - the session cookie is a serialized object, and you are free to rewrite it. | 28901 | 382 s |
+| [`eucalyptus`](eucalyptus/) | Deserialization practice drill - a phar metadata gadget chain bridges two services to reach the flag. | 28902 | 2852 s |
 
 Arm: `cd <drill> && cp .env.example .env && docker compose up -d --build`,
 then `./RESET.sh` restores factory state.

@@ -15,6 +15,7 @@ Ruby sentence generator. Evaluate first, execute second.
 | [`banyan`](banyan/) | SSTI practice drill - a contact-form field gets rendered through Python templates, and subclass introspection opens a shell. | 19013 | 29 s |
 | [`baobab`](baobab/) | SSTI practice drill - a sentence generator runs Ruby templates, and template tags execute system commands. | 19014 | 16 s |
 | [`beech`](beech/) | SSTI practice drill - a loan calculator evaluates your numbers through Python templates with no filter at all. | 19015 | 64 s |
+| [`fig`](fig/) | Expression-injection practice drill - the message form evaluates OGNL, Struts-style. | 28904 | 112 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores

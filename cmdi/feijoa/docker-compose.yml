@@ -1,0 +1,53 @@
+name: drill-feijoa
+services:
+  db:
+    build:
+      context: ./app/mysql
+    volumes:
+      - ./app/mysql-init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: challenge
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      SITE_PORT: ${HOST_PORT:-28903}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pwordpress"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks: [drill]
+  web:
+    build:
+      context: ./app/wordpress
+      secrets: [flag]
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28903}:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: wordpress
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/wp-login.php"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks: [drill]
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  drill:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.223.0/24}

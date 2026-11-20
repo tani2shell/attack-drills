@@ -1,0 +1,26 @@
+name: drill-frangipani
+services:
+  web:
+    build:
+      context: ./app/app
+      secrets: [flag]
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28905}:5003"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:5003/"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks: [drill]
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  drill:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.225.0/24}

@@ -1,0 +1,66 @@
+name: drill-hackberry
+services:
+  app:
+    build:
+      context: ./app
+      secrets: [flag]
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c 'import socket;socket.create_connection((\"127.0.0.1\",8080),3)'"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks:
+      drill:
+        aliases: [flask_app]
+  api:
+    build:
+      context: ./api
+    environment:
+      API_HOST: 0.0.0.0
+      API_PORT: '8081'
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8081/"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks:
+      drill:
+        aliases: [flask_api, flask_app]
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28909}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./njs_state/name:/tmp/name:rw
+      - ./njs_state/apiurl:/tmp/apiurl:rw
+    depends_on:
+      app:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    cpus: "0.5"
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/healthcheck || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+    networks: [drill]
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  drill:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.229.0/24}

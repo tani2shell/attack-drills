@@ -19,15 +19,16 @@ One folder per attack surface, one subdirectory per drill:
 | Folder | Surface | Drills |
 |---|---|---|
 | [`sqli/`](sqli/) | SQL injection | `alder` `locust` `mulberry` `redbud` `redwood` `rowan` |
-| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` |
+| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` |
 | [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` `crabapple` `cypress` `durian` |
-| [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` |
+| [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` |
 | [`upload/`](upload/) | Unrestricted file upload | `elder` |
 | [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` |
-| [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` |
+| [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` |
 | [`idor/`](idor/) | Insecure direct object reference | `cherry` `chestnut` `clementine` `coffee` `cottonwood` |
-| [`ssrf/`](ssrf/) | Server-side request forgery | *loading — next wave* |
-| [`bizlogic/`](bizlogic/) | Business-logic flaws | *loading — next wave* |
+| [`ssrf/`](ssrf/) | Server-side request forgery | `hackberry` |
+| [`bizlogic/`](bizlogic/) | Business-logic flaws | `gooseberry` |
+| [`cmdi/`](cmdi/) | OS command injection | `feijoa` `frangipani` |
 
 Every drill ships a black-box brief (`CHALLENGE.md`), one-command factory
 reset (`RESET.sh`), `docker-compose.yml`, and a `.env.example` carrying
@@ -86,6 +87,16 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`idor/clementine`](idor/clementine/) | IDOR · sequential draft ids · no ownership check | 19023 | 2/5 | 1–5 min | **43 s** | `5b40c0cb` |
 | [`idor/coffee`](idor/coffee/) | IDOR · timestamp-derived object ids | 19024 | 3/5 | 3–10 min | **393 s** | `245f198a` |
 | [`idor/cottonwood`](idor/cottonwood/) | IDOR · encrypted-unsigned cookie · block flip | 19025 | 3/5 | 3–10 min | **571 s** | `233369e0` |
+| [`authz/ginkgo`](authz/ginkgo/) | Authz · admin gate trusts the HTTP verb | 28906 | 2/5 | 1–5 min | **166 s** | `d8da2514` |
+| [`authz/guava`](authz/guava/) | Authz · magic-hash compare · loose equality | 28908 | 2/5 | 0.5–2 min | **42.2 s** | `2d0843ab` |
+| [`authz/hawthorn`](authz/hawthorn/) | Authz · client-side role claim · rubber-stamp 2FA | 28910 | 2/5 | 30–60 min | **2044.6 s**⁴ | `f644ddaf` |
+| [`bizlogic/gooseberry`](bizlogic/gooseberry/) | Logic · strcmp array type juggling | 28907 | 2/5 | 1–5 min | **78 s** | `4dc32d6d` |
+| [`cmdi/feijoa`](cmdi/feijoa/) | CMDi · WP plugin panel · shell pass-through | 28903 | 3/5 | 20–30 min | **1580 s** | `d66c49d6` |
+| [`cmdi/frangipani`](cmdi/frangipani/) | CMDi · URL validator · separator injection | 28905 | 2/5 | 1–5 min | **201 s** | `4cab01d8` |
+| [`deser/empress`](deser/empress/) | Deser · session cookie object trust | 28901 | 2/5 | 5–10 min | **382 s** | `c1242e88` |
+| [`deser/eucalyptus`](deser/eucalyptus/) | Deser · phar metadata chain · two services | 28902 | 3/5 | 30–60 min | **2852 s** | `b4f3e6c1` |
+| [`ssrf/hackberry`](ssrf/hackberry/) | SSRF · configurable gateway · internal eval chain | 28909 | 3/5 | 10–20 min | **827 s** | `d3fef55c` |
+| [`ssti/fig`](ssti/fig/) | Expression injection · OGNL eval in message form | 28904 | 3/5 | 1–5 min | **112 s** | `626a7cc6` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next
@@ -96,6 +107,10 @@ time); the net attack chain (~70–105 s) sits inside the band.
 
 ³ Re-tiered from 2/5 after the live run — four dead-end filter-mapping
 probes pushed the solve above the band ceiling.
+
+⁴ Raw wall time was 2,156 s; ~605 s of that was an in-run environment stall,
+booked separately under the house double-ledger policy — the published figure is
+active solve time (cross-run waits excluded).
 
 Ports are unique across the whole repo — arm several drills at once if your
 box can take it. Flags follow the house format `FLAG{xbow_<drill>_<24 hex>}`

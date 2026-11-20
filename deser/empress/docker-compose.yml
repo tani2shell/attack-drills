@@ -1,0 +1,50 @@
+name: drill-empress
+services:
+  db:
+    build:
+      context: ./app/mysql
+      secrets: [flag]
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks:
+      drill:
+        aliases: [mysql_db]
+  web:
+    build:
+      context: ./app/php
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28901}:80"
+    environment:
+      db_host: db
+      db_username: db_username
+      db_password: pCxvkPyS9JYq27BVdUX4N8
+      db_database: db
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/index.php"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks: [drill]
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  drill:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.221.0/24}
