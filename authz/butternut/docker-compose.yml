@@ -1,0 +1,44 @@
+# butternut - attack-drills wave-c practice drill
+services:
+  web:
+    build:
+      context: ./app
+      args:
+        FLAG_B64: ${FLAG_B64}
+    ports:
+      - "0.0.0.0:${HOST_PORT:-19017}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    cpus: "1.0"
+    mem_limit: 1024m
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:80/"]
+      interval: 15s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - lab
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: idor_indirect_trading_platform
+      MYSQL_DATABASE: database
+    cpus: "1.0"
+    mem_limit: 1024m
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pidor_indirect_trading_platform"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+    networks:
+      - lab
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.207.0/24}

@@ -1,0 +1,46 @@
+# coffee - attack-drills wave-c practice drill
+services:
+  web:
+    build:
+      context: ./app
+      args:
+        FLAG_B64: ${FLAG_B64}
+    ports:
+      - "0.0.0.0:${HOST_PORT:-19024}:3000"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/getthefirst
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    cpus: "1.0"
+    mem_limit: 1024m
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - lab
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodata:/data/db
+    cpus: "1.0"
+    mem_limit: 1024m
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - lab
+volumes:
+  mongodata:
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.214.0/24}

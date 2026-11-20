@@ -1,0 +1,25 @@
+# cacao - attack-drills wave-c practice drill
+services:
+  web:
+    build:
+      context: ./app
+      args:
+        FLAG_B64: ${FLAG_B64}
+    ports:
+      - "0.0.0.0:${HOST_PORT:-19019}:5003"
+    cpus: "1.0"
+    mem_limit: 1024m
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:5003/login"]
+      interval: 15s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - lab
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.209.0/24}
