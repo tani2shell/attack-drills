@@ -1,0 +1,28 @@
+# attack-drills/spruce - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-spruce
+services:
+  web:
+    build:
+      context: ./app
+      secrets:
+        - flag
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28913}:80"
+    cpus: "1.0"
+    mem_limit: 768m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/80' || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 8
+    networks: [lab]
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.233.0/24}

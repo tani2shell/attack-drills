@@ -1,0 +1,41 @@
+# attack-drills/sequoia - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-sequoia
+services:
+  s3:
+    build:
+      context: ./app/s3
+    cpus: "0.5"
+    mem_limit: 512m
+    restart: unless-stopped
+    networks: [lab]
+  frontend:
+    build:
+      context: ./app/frontend
+      secrets:
+        - flag
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    networks: [lab]
+  nginx:
+    build:
+      context: ./app/nginx
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28912}:80"
+      - "127.0.0.1:${S3_PORT:-28943}:8333"
+    depends_on:
+      - s3
+      - frontend
+    cpus: "0.5"
+    mem_limit: 256m
+    restart: unless-stopped
+    networks: [lab]
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.232.0/24}

@@ -6,6 +6,8 @@ sequence is what lies.
 | Drill | One-line | Port | Measured |
 |---|---|---|---|
 | [`gooseberry`](gooseberry/) | Business-logic practice drill - the login check juggles types, and an array slides straight through the string comparison. | 28907 | 78 s |
+| [`sumac`](sumac/) | Business-logic practice drill — browser-side puzzle gate · the server never asks if you solved it — the server never asks if you solved it. | 28914 | 19 s |
+| [`sycamore`](sycamore/) | Business-logic practice drill — internal-origin header gate · forge the source address, walk right in — forge the source address, walk right in. | 28915 | 6 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores

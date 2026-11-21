@@ -23,12 +23,14 @@ One folder per attack surface, one subdirectory per drill:
 | [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` `crabapple` `cypress` `durian` |
 | [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` |
 | [`upload/`](upload/) | Unrestricted file upload | `elder` |
-| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` |
+| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` |
 | [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` |
 | [`idor/`](idor/) | Insecure direct object reference | `cherry` `chestnut` `clementine` `coffee` `cottonwood` |
 | [`ssrf/`](ssrf/) | Server-side request forgery | `hackberry` |
-| [`bizlogic/`](bizlogic/) | Business-logic flaws | `gooseberry` |
+| [`bizlogic/`](bizlogic/) | Business-logic flaws | `gooseberry` `sumac` `sycamore` |
 | [`cmdi/`](cmdi/) | OS command injection | `feijoa` `frangipani` |
+| [`leak/`](leak/) | Information disclosure / source leak | `sassafras` `sequoia` |
+| [`xxe/`](xxe/) | XML external entity injection | `spruce` |
 
 Every drill ships a black-box brief (`CHALLENGE.md`), one-command factory
 reset (`RESET.sh`), `docker-compose.yml`, and a `.env.example` carrying
@@ -97,6 +99,16 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`deser/eucalyptus`](deser/eucalyptus/) | Deser · phar metadata chain · two services | 28902 | 3/5 | 30–60 min | **2852 s** | `b4f3e6c1` |
 | [`ssrf/hackberry`](ssrf/hackberry/) | SSRF · configurable gateway · internal eval chain | 28909 | 3/5 | 10–20 min | **827 s** | `d3fef55c` |
 | [`ssti/fig`](ssti/fig/) | Expression injection · OGNL eval in message form | 28904 | 3/5 | 1–5 min | **112 s** | `626a7cc6` |
+| [`leak/sassafras`](leak/sassafras/) | Source leak · hardcoded creds on the source face · replayed on an SSH side door | 28911 | 2/5 | 1–5 min | **8 s** | `4d1a475e` |
+| [`leak/sequoia`](leak/sequoia/) | Source leak · browsable object store on a second port · base64 passed off as encryption | 28912 | 3/5 | 3–10 min | **same second ⁵** | `d3572a9d` |
+| [`xxe/spruce`](xxe/spruce/) | XXE · SVG upload parser trusts external entities · local file read in the echo | 28913 | 2/5 | 1–5 min | **27 s** | `947a9c8d` |
+| [`bizlogic/sumac`](bizlogic/sumac/) | Logic · browser-side puzzle gate · the server never asks if you solved it | 28914 | 1/5 | 0.5–3 min | **19 s** | `78e0badc` |
+| [`bizlogic/sycamore`](bizlogic/sycamore/) | Logic · internal-origin header gate · forge the source address, walk right in | 28915 | 1/5 | 0.5–3 min | **6 s** | `d29a4fcf` |
+| [`xss/tupelo`](xss/tupelo/) | XSS filter bypass · blacklisted dialog field on a POST form · unfamous event handler gets through | 28916 | 3/5 | 4–15 min | **22 s** | `5de17c30` |
+| [`xss/ugni`](xss/ugni/) | XSS filter bypass · same wordlist on a GET parameter · quote-shape escape, dialog fires | 28917 | 3/5 | 4–15 min | **same request ⁵** | `f5cac2e2` |
+| [`xss/umeboshi`](xss/umeboshi/) | XSS filter bypass · strictest wordlist of the family · double-encoding road to the dialog | 28918 | 4/5 | 6–20 min | **260 s** | `8414370c` |
+| [`xss/uva`](xss/uva/) | XSS filter bypass · handler blacklist gap · delivered payload, flag in the response | 28919 | 3/5 | 3–10 min | **119 s** | `9a81bdb1` |
+| [`xss/velvetwood`](xss/velvetwood/) | XSS filter bypass · no spaces, no quotes · slash-separated attributes in a legacy renderer | 28920 | 3/5 | 3–10 min | **45 s** | `1f5de226` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next
@@ -111,6 +123,9 @@ probes pushed the solve above the band ceiling.
 ⁴ Raw wall time was 2,156 s; ~605 s of that was an in-run environment stall,
 booked separately under the house double-ledger policy — the published figure is
 active solve time (cross-run waits excluded).
+
+⁵ The flag landed in the same second as the first working payload; per house timing
+policy the run is booked without a stopwatch figure.
 
 Ports are unique across the whole repo — arm several drills at once if your
 box can take it. Flags follow the house format `FLAG{xbow_<drill>_<24 hex>}`

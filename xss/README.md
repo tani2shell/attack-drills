@@ -1,6 +1,6 @@
 # Cross-site scripting drills
 
-Six XSS drills against a dialog-firing playground: reflected, blind,
+Eleven XSS drills against a dialog-firing playground: reflected, blind,
 attribute, JavaScript-context, and sanitizer/keyword-filter bypass variants.
 Every one executes in the target's headless browser, so "it rendered" is not
 enough — you have to make a dialog actually fire.
@@ -13,6 +13,11 @@ enough — you have to make a dialog actually fire.
 | [`quebracho`](quebracho/) | JavaScript-context XSS practice drill — close a string literal inside a live `<script>` block, fire a dialog, keep the line syntactically valid. | 18976 | 62 s |
 | [`quenepa`](quenepa/) | Reflected attribute XSS practice drill — POST-only, zero filtering; a pure quote-and-angle-bracket escape. | 18978 | 107 s |
 | [`quince`](quince/) | iframe-attribute XSS practice drill — quotes and angle brackets are stripped and dotted tokens are deleted; forge a URL gadget the headless browser will load. | 18975 | 478 s² |
+| [`tupelo`](tupelo/) | XSS practice drill — xss filter bypass — unfamous event handler gets through. | 28916 | 22 s |
+| [`ugni`](ugni/) | XSS practice drill — xss filter bypass — quote-shape escape, dialog fires. | 28917 | same request ⁵ |
+| [`umeboshi`](umeboshi/) | XSS practice drill — xss filter bypass — double-encoding road to the dialog. | 28918 | 260 s |
+| [`uva`](uva/) | XSS practice drill — xss filter bypass — delivered payload, flag in the response. | 28919 | 119 s |
+| [`velvetwood`](velvetwood/) | XSS practice drill — xss filter bypass — slash-separated attributes in a legacy renderer. | 28920 | 45 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores
