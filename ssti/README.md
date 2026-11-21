@@ -1,6 +1,6 @@
 # SSTI drills
 
-Nine server-side template injection drills across Django, legacy Twig 1.19
+Twelve server-side template injection drills across Django, legacy Twig 1.19
 on PHP 8, Jinja2 in three different cages, plain-Python renderers, and a
 Ruby sentence generator. Evaluate first, execute second.
 
@@ -16,6 +16,8 @@ Ruby sentence generator. Evaluate first, execute second.
 | [`baobab`](baobab/) | SSTI practice drill - a sentence generator runs Ruby templates, and template tags execute system commands. | 19014 | 16 s |
 | [`beech`](beech/) | SSTI practice drill - a loan calculator evaluates your numbers through Python templates with no filter at all. | 19015 | 64 s |
 | [`fig`](fig/) | Expression-injection practice drill - the message form evaluates OGNL, Struts-style. | 28904 | 112 s |
+| [`zelkova`](zelkova/) | SSTI practice drill — prove the injection, take the default creds, traverse to the flag file. | 28931 | 255 s |
+| [`ziziphus`](ziziphus/) | Blind SSTI practice drill — the calculator won't echo; a row count becomes your oracle. | 28932 | 112 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores

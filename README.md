@@ -18,12 +18,12 @@ One folder per attack surface, one subdirectory per drill:
 
 | Folder | Surface | Drills |
 |---|---|---|
-| [`sqli/`](sqli/) | SQL injection | `alder` `locust` `mulberry` `redbud` `redwood` `rowan` |
-| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` |
+| [`sqli/`](sqli/) | SQL injection | `alder` `locust` `mulberry` `redbud` `redwood` `rowan` `yew` `ylang` `yellowwood` |
+| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` `zelkova` `ziziphus` |
 | [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` `crabapple` `cypress` `durian` |
 | [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` |
 | [`upload/`](upload/) | Unrestricted file upload | `elder` |
-| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` |
+| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` `viburnum` `vochysia` `walnut` `whitebeam` `willow` `wisteria` `ximenia` |
 | [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` |
 | [`idor/`](idor/) | Insecure direct object reference | `cherry` `chestnut` `clementine` `coffee` `cottonwood` |
 | [`ssrf/`](ssrf/) | Server-side request forgery | `hackberry` |
@@ -109,6 +109,18 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`xss/umeboshi`](xss/umeboshi/) | XSS filter bypass · strictest wordlist of the family · double-encoding road to the dialog | 28918 | 4/5 | 6–20 min | **260 s** | `8414370c` |
 | [`xss/uva`](xss/uva/) | XSS filter bypass · handler blacklist gap · delivered payload, flag in the response | 28919 | 3/5 | 3–10 min | **119 s** | `9a81bdb1` |
 | [`xss/velvetwood`](xss/velvetwood/) | XSS filter bypass · no spaces, no quotes · slash-separated attributes in a legacy renderer | 28920 | 3/5 | 3–10 min | **45 s** | `1f5de226` |
+| [`xss/viburnum`](xss/viburnum/) | XSS filter bypass · unclosed-tag survival · ride a handler attribute into execution | 28921 | 4/5 | 6–20 min | **15 s** | `cfbdf814` |
+| [`xss/vochysia`](xss/vochysia/) | XSS filter bypass · one-word filter · attribute escape straight to an event handler | 28922 | 3/5 | 3–10 min | **2 s** | `998181ad` |
+| [`xss/walnut`](xss/walnut/) | XSS filter bypass · famous-tags-only list · an unbanned element plus a handler gets in | 28923 | 3/5 | 3–10 min | **39 s** | `0b0082da` |
+| [`xss/willow`](xss/willow/) | XSS filter bypass · parentheses banned · entity-encoded call past the character filter | 28924 | 4/5 | 6–20 min | **38 s** | `f3792ef9` |
+| [`xss/whitebeam`](xss/whitebeam/) | XSS filter bypass · quoted phrase stripped · a missing image's error event fires the dialog | 28925 | 3/5 | 3–10 min | **16 s** | `d2dcf0eb` |
+| [`xss/wisteria`](xss/wisteria/) | XSS filter bypass · one survivor tag · merge it to wire events onto the page's own element | 28926 | 4/5 | 6–20 min | **11 s** | `8c27eec2` |
+| [`xss/ximenia`](xss/ximenia/) | XSS filter bypass · near-complete event blacklist · one unlisted event is all it takes | 28927 | 3/5 | 3–10 min | **3 s** | `77213abe` |
+| [`sqli/yew`](sqli/yew/) | Blind SQLi · slow boolean oracle on a payroll query · stolen creds walk login, upload, code exec | 28928 | 4/5 | 6–20 min | **126 s** clean chain (23 m 54 s incl. wrong turn) | `db59faa0` |
+| [`sqli/ylang`](sqli/ylang/) | Blind SQLi · boolean extraction on the login query · admin credential behind the wall | 28929 | 4/5 | 6–20 min | **67 s** (229 probes) | `a7bf7255` |
+| [`sqli/yellowwood`](sqli/yellowwood/) | SQLi · login query injection · UNION enumeration into the second table | 28930 | 3/5 | 3–10 min | **91 s** | `a1f6aebd` |
+| [`ssti/zelkova`](ssti/zelkova/) | SSTI multi-hop · expression proof · default creds · path traversal to the flag file | 28931 | 3/5 | 3–10 min | **255 s** | `7d24f748` |
+| [`ssti/ziziphus`](ssti/ziziphus/) | Blind SSTI oracle · the template won't echo · a row count answers character by character | 28932 | 4/5 | 6–20 min | **112 s** | `3c6ef997` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next

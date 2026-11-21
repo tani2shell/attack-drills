@@ -1,0 +1,47 @@
+# attack-drills/ziziphus - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-ziziphus
+services:
+  web:
+    build:
+      context: ./app
+      secrets:
+        - flag
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28932}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    cpus: "1.5"
+    mem_limit: 1536m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/login"]
+      interval: 15s
+      timeout: 3s
+      retries: 10
+    networks: [lab]
+  db:
+    image: mysql:5.7
+    platform: linux/amd64
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ssti_blind_loan_calculator
+      MYSQL_DATABASE: database
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pssti_blind_loan_calculator"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+    networks: [lab]
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.252.0/24}
