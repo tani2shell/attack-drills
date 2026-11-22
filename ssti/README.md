@@ -1,8 +1,8 @@
 # SSTI drills
 
-Twelve server-side template injection drills across Django, legacy Twig 1.19
-on PHP 8, Jinja2 in three different cages, plain-Python renderers, and a
-Ruby sentence generator. Evaluate first, execute second.
+Thirteen server-side template injection drills across Django, legacy Twig 1.19
+on PHP 8, Jinja2 in three different cages, plain-Python renderers, a Ruby
+sentence generator, and a second-pass date renderer. Evaluate first, execute second.
 
 | Drill | One-line | Port | Measured |
 |---|---|---|---|
@@ -18,14 +18,17 @@ Ruby sentence generator. Evaluate first, execute second.
 | [`fig`](fig/) | Expression-injection practice drill - the message form evaluates OGNL, Struts-style. | 28904 | 112 s |
 | [`zelkova`](zelkova/) | SSTI practice drill — prove the injection, take the default creds, traverse to the flag file. | 28931 | 255 s |
 | [`ziziphus`](ziziphus/) | Blind SSTI practice drill — the calculator won't echo; a row count becomes your oracle. | 28932 | 112 s |
+| [`jacaranda`](jacaranda/) | SSTI practice drill — the date you supply is woven into the page's own template and rendered a second time. | 28938 | 0.1 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores
 factory state. Full calibration table lives in the
 [series README](../README.md).
 
-The five later shots (`aspen` … `beech`) ship their flag base64-encoded in
+All shots from `aspen` on ship their flag base64-encoded in
 `.env.example` — no plaintext flag, no write-up; verify your capture
-against the `sha256` anchor printed in each `CHALLENGE.md`.
+against the `sha256` anchor printed in each `CHALLENGE.md`. `jacaranda`
+books payload-to-flag replay time from the closeout black-box replay —
+see note ⁶ in the series README.
 
 ¹ imported shot — suite-level band 3–15 min, stopwatch value backfilling.

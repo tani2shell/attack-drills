@@ -19,12 +19,12 @@ One folder per attack surface, one subdirectory per drill:
 | Folder | Surface | Drills |
 |---|---|---|
 | [`sqli/`](sqli/) | SQL injection | `alder` `locust` `mulberry` `redbud` `redwood` `rowan` `yew` `ylang` `yellowwood` |
-| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` `zelkova` `ziziphus` |
+| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` `zelkova` `ziziphus` `jacaranda` |
 | [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` `crabapple` `cypress` `durian` |
-| [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` |
+| [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` `hornbeam` |
 | [`upload/`](upload/) | Unrestricted file upload | `elder` |
-| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` `viburnum` `vochysia` `walnut` `whitebeam` `willow` `wisteria` `ximenia` |
-| [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` |
+| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` `viburnum` `vochysia` `walnut` `whitebeam` `willow` `wisteria` `ximenia` `hemlock` `holly` `hickorynut` |
+| [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` `ipecac` |
 | [`idor/`](idor/) | Insecure direct object reference | `cherry` `chestnut` `clementine` `coffee` `cottonwood` |
 | [`ssrf/`](ssrf/) | Server-side request forgery | `hackberry` |
 | [`bizlogic/`](bizlogic/) | Business-logic flaws | `gooseberry` `sumac` `sycamore` |
@@ -121,6 +121,12 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`sqli/yellowwood`](sqli/yellowwood/) | SQLi · login query injection · UNION enumeration into the second table | 28930 | 3/5 | 3–10 min | **91 s** | `a1f6aebd` |
 | [`ssti/zelkova`](ssti/zelkova/) | SSTI multi-hop · expression proof · default creds · path traversal to the flag file | 28931 | 3/5 | 3–10 min | **255 s** | `7d24f748` |
 | [`ssti/ziziphus`](ssti/ziziphus/) | Blind SSTI oracle · the template won't echo · a row count answers character by character | 28932 | 4/5 | 6–20 min | **112 s** | `3c6ef997` |
+| [`xss/hemlock`](xss/hemlock/) | XSS filter bypass · JS-string reflection · letters, digits and angles banned · punctuation-only rewrite on a legacy engine | 28933 | 4/5 | 6–20 min | **49 s** strict anchor (class-hinted first-contact run 176 min 16 s) | `38d97584` |
+| [`xss/holly`](xss/holly/) | XSS filter bypass · alphabet-range blocklist · one capital survived · focus-event handler | 28934 | 3/5 | 3–10 min | **1.2 s** ⁶ | `cfe2aea7` |
+| [`xss/hickorynut`](xss/hickorynut/) | XSS filter bypass · angle brackets banned · hex-escape revival of the dead characters at write time | 28935 | 3/5 | 3–10 min | **0.1 s** ⁶ | `0582acfd` |
+| [`deser/hornbeam`](deser/hornbeam/) | Insecure deserialization · session-cookie object injection · command execution · out-of-band read via the static dir | 28936 | 3/5 | 3–10 min | **0.8 s** ⁶ | `7de536f6` |
+| [`authz/ipecac`](authz/ipecac/) | Broken access control · demo creds · concurrent-login race on the session re-read · privilege window to admin read | 28937 | 3/5 | 3–10 min | **1.7 s** ⁶ (second replay 5.6 s) | `d3424f71` |
+| [`ssti/jacaranda`](ssti/jacaranda/) | SSTI · weak login · expression eval through the template context · object walk to command execution | 28938 | 3/5 | 3–10 min | **0.1 s** ⁶ | `67d93220` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next
@@ -138,6 +144,10 @@ active solve time (cross-run waits excluded).
 
 ⁵ The flag landed in the same second as the first working payload; per house timing
 policy the run is booked without a stopwatch figure.
+
+⁶ Payload-to-flag replay time from the closeout black-box replay (internal
+timing record), not a fresh solver's wall-clock solve; `ipecac`'s race window
+makes every replay a different roll — its second closeout replay booked 5.6 s.
 
 Ports are unique across the whole repo — arm several drills at once if your
 box can take it. Flags follow the house format `FLAG{xbow_<drill>_<24 hex>}`

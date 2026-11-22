@@ -1,6 +1,6 @@
 # Cross-site scripting drills
 
-Eighteen XSS drills against a dialog-firing playground: reflected, blind,
+Twenty-one XSS drills against a dialog-firing playground: reflected, blind,
 attribute, JavaScript-context, and sanitizer/keyword-filter bypass variants.
 Every one executes in the target's headless browser, so "it rendered" is not
 enough — you have to make a dialog actually fire.
@@ -25,11 +25,16 @@ enough — you have to make a dialog actually fire.
 | [`whitebeam`](whitebeam/) | XSS practice drill — xss filter bypass — a missing image's error event fires the dialog. | 28925 | 16 s |
 | [`wisteria`](wisteria/) | XSS practice drill — xss filter bypass — merge one survivor tag onto the page's own element. | 28926 | 11 s |
 | [`ximenia`](ximenia/) | XSS practice drill — xss filter bypass — the event blacklist has a hole; use it. | 28927 | 3 s |
+| [`hemlock`](hemlock/) | XSS practice drill — xss filter bypass — letters and digits banned; rewrite the JavaScript in punctuation alone. | 28933 | 49 s strict / 176 m 16 s first-contact |
+| [`holly`](holly/) | XSS practice drill — xss filter bypass — the blocklist sweeps an alphabet range; one letter survived the sweep. | 28934 | 1.2 s |
+| [`hickorynut`](hickorynut/) | XSS practice drill — xss filter bypass — angle brackets are dead letters; the interpreter still honors their escape codes. | 28935 | 0.1 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores
 factory state. Full calibration table lives in the
-[series README](../README.md).
+[series README](../README.md). The three newest shots (`hemlock`, `holly`,
+`hickorynut`) book payload-to-flag replay time from the closeout black-box
+replay — see note ⁶ in the series README.
 
 ¹ four dead-end filter-mapping probes pushed the solve above the 3–15 min
 band ceiling; the drill was re-tiered to 3/5 after the live run.

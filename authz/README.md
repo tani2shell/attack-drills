@@ -13,11 +13,14 @@ logged in, not *what* you may touch.
 | [`ginkgo`](ginkgo/) | Access-control practice drill - the admin gate checks your role but not your HTTP verb, so a method swap walks right in. | 28906 | 166 s |
 | [`guava`](guava/) | Access-control practice drill - the login form compares password hashes with loose typing, and a magic 0e hash logs you in. | 28908 | 42.2 s |
 | [`hawthorn`](hawthorn/) | Access-control practice drill - roles are asserted client-side and the second factor stamps whatever you send it. | 28910 | 2044.6 s |
+| [`ipecac`](ipecac/) | Access-control practice drill - demo credentials get you in the door; a race in the gatekeeper's re-check gets you past the gate. | 28937 | 1.7 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores
 factory state. Full calibration table lives in the
-[series README](../README.md).
+[series README](../README.md). `ipecac` books payload-to-flag replay time from
+the closeout black-box replay (race window: second replay 5.6 s) — see
+note ⁶ in the series README.
 
 Flags ship base64-encoded in `.env.example` — no plaintext flag, no
 write-up; verify your capture against the `sha256` anchor printed in each

@@ -1,0 +1,52 @@
+# attack-drills/ipecac - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-ipecac
+services:
+  web:
+    build:
+      context: ./app
+      secrets:
+        - flag
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28937}:80"
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks: [lab]
+
+  db:
+    image: mysql:5.7.15
+    container_name: attack-drills-ipecac-db
+    environment:
+      - MYSQL_DATABASE=database
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=toctou_admin_router
+    restart: unless-stopped
+    expose:
+      - "3306"
+    cpus: "1.0"
+    mem_limit: 1024m
+    networks: [lab]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-ptoctou_admin_router"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.165.0/24}
