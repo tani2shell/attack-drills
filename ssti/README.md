@@ -1,8 +1,9 @@
 # SSTI drills
 
-Thirteen server-side template injection drills across Django, legacy Twig 1.19
+Fourteen server-side template injection drills across Django, legacy Twig 1.19
 on PHP 8, Jinja2 in three different cages, plain-Python renderers, a Ruby
-sentence generator, and a second-pass date renderer. Evaluate first, execute second.
+sentence generator, a second-pass date renderer, and a sign-up name typeset by
+the invitation page's own engine. Evaluate first, execute second.
 
 | Drill | One-line | Port | Measured |
 |---|---|---|---|
@@ -19,6 +20,7 @@ sentence generator, and a second-pass date renderer. Evaluate first, execute sec
 | [`zelkova`](zelkova/) | SSTI practice drill — prove the injection, take the default creds, traverse to the flag file. | 28931 | 255 s |
 | [`ziziphus`](ziziphus/) | Blind SSTI practice drill — the calculator won't echo; a row count becomes your oracle. | 28932 | 112 s |
 | [`jacaranda`](jacaranda/) | SSTI practice drill — the date you supply is woven into the page's own template and rendered a second time. | 28938 | 0.1 s |
+| [`acacia`](acacia/) | SSTI practice drill — the profile name you sign up with is typeset into the invitation page by the template engine itself. | 28939 | 1 min 57 s strict / 8 min 37 s first-contact |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores

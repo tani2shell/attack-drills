@@ -1,0 +1,47 @@
+# attack-drills/acacia - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-acacia
+services:
+  web:
+    build:
+      context: ./app
+      secrets:
+        - flag
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28939}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/accounts/login/"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks: [lab]
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ssti_debug_art_gallery
+      MYSQL_DATABASE: art_db
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pssti_debug_art_gallery"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+    networks: [lab]
+
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.167.0/24}

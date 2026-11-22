@@ -19,7 +19,7 @@ One folder per attack surface, one subdirectory per drill:
 | Folder | Surface | Drills |
 |---|---|---|
 | [`sqli/`](sqli/) | SQL injection | `alder` `locust` `mulberry` `redbud` `redwood` `rowan` `yew` `ylang` `yellowwood` |
-| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` `zelkova` `ziziphus` `jacaranda` |
+| [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` `zelkova` `ziziphus` `jacaranda` `acacia` |
 | [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` `crabapple` `cypress` `durian` |
 | [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` `hornbeam` |
 | [`upload/`](upload/) | Unrestricted file upload | `elder` |
@@ -127,6 +127,7 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`deser/hornbeam`](deser/hornbeam/) | Insecure deserialization · session-cookie object injection · command execution · out-of-band read via the static dir | 28936 | 3/5 | 3–10 min | **0.8 s** ⁶ | `7de536f6` |
 | [`authz/ipecac`](authz/ipecac/) | Broken access control · demo creds · concurrent-login race on the session re-read · privilege window to admin read | 28937 | 3/5 | 3–10 min | **1.7 s** ⁶ (second replay 5.6 s) | `d3424f71` |
 | [`ssti/jacaranda`](ssti/jacaranda/) | SSTI · weak login · expression eval through the template context · object walk to command execution | 28938 | 3/5 | 3–10 min | **0.1 s** ⁶ | `67d93220` |
+| [`ssti/acacia`](ssti/acacia/) | SSTI · three-step sign-up · name field spliced into the invitation template · render-context disclosure | 28939 | 3/5 | 3–10 min | **1 min 57 s** strict anchor (class-hinted first-contact run 8 min 37 s) | `55a35d11` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next
