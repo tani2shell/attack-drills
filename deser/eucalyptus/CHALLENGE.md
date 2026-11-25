@@ -21,4 +21,4 @@ printf %s "$YOUR_FLAG" | sha256sum | head -c 8   # must print b4f3e6c1
 ```
 
 Band: 30-60 min (class-hinted; live black-box run measured 2852s).
-The SKU-model microservice also publishes its own port (default 28941, see `SKU_PORT` in `.env`).
+The SKU-model microservice also publishes its own port (default 28968, see `SKU_PORT` in `.env`).
