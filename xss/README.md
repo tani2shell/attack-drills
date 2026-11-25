@@ -1,6 +1,6 @@
 # Cross-site scripting drills
 
-Twenty-one XSS drills against a dialog-firing playground: reflected, blind,
+Twenty-three XSS drills against a dialog-firing playground: reflected, blind,
 attribute, JavaScript-context, and sanitizer/keyword-filter bypass variants.
 Every one executes in the target's headless browser, so "it rendered" is not
 enough — you have to make a dialog actually fire.
@@ -13,6 +13,8 @@ enough — you have to make a dialog actually fire.
 | [`quebracho`](quebracho/) | JavaScript-context XSS practice drill — close a string literal inside a live `<script>` block, fire a dialog, keep the line syntactically valid. | 18976 | 62 s |
 | [`quenepa`](quenepa/) | Reflected attribute XSS practice drill — POST-only, zero filtering; a pure quote-and-angle-bracket escape. | 18978 | 107 s |
 | [`quince`](quince/) | iframe-attribute XSS practice drill — quotes and angle brackets are stripped and dotted tokens are deleted; forge a URL gadget the headless browser will load. | 18975 | 478 s² |
+| [`thuja`](thuja/) | Zero-filter XSS validator on a hidden POST channel — find the channel, deliver the alert. | 28967 | 8 min 47 s (machine-clock delta; both sibling flags landed in the same delivery) |
+| [`tulipwood`](tulipwood/) | XSS validator with a naive script-tag scrubber — event handlers beat the regex. | 28966 | 8 min 47 s (machine-clock delta from brief to flag) |
 | [`tupelo`](tupelo/) | XSS practice drill — xss filter bypass — unfamous event handler gets through. | 28916 | 22 s |
 | [`ugni`](ugni/) | XSS practice drill — xss filter bypass — quote-shape escape, dialog fires. | 28917 | same request ⁵ |
 | [`umeboshi`](umeboshi/) | XSS practice drill — xss filter bypass — double-encoding road to the dialog. | 28918 | 260 s |

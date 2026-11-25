@@ -1,0 +1,28 @@
+# attack-drills/nara - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-nara
+services:
+  web:
+    build:
+      context: ./app
+    env_file:
+      - ./flag.env
+    image: upload-drill-nara:latest
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28955}:80"
+    cpus: "1.0"
+    mem_limit: 768m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:/"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks: [lab]
+
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.185.0/24}

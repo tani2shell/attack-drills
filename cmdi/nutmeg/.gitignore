@@ -1,0 +1,6 @@
+flag.txt
+flag.env
+.env
+__pycache__/
+*.log
+.DS_Store

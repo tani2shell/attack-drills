@@ -20,15 +20,15 @@ One folder per attack surface, one subdirectory per drill:
 |---|---|---|
 | [`sqli/`](sqli/) | SQL injection | `alder` `locust` `mulberry` `redbud` `redwood` `rowan` `yew` `ylang` `yellowwood` |
 | [`ssti/`](ssti/) | Server-side template injection | `dogwood` `larch` `ramin` `rosewood` `aspen` `balsa` `banyan` `baobab` `beech` `fig` `zelkova` `ziziphus` `jacaranda` `acacia` |
-| [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` `crabapple` `cypress` `durian` |
+| [`lfi/`](lfi/) | Path traversal / file inclusion | `birch` `crabapple` `cypress` `durian` `padauk` `pecan` `persimmon` `poplar` `teak` |
 | [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` `hornbeam` |
-| [`upload/`](upload/) | Unrestricted file upload | `elder` |
-| [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` `viburnum` `vochysia` `walnut` `whitebeam` `willow` `wisteria` `ximenia` `hemlock` `holly` `hickorynut` |
-| [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` `ipecac` `fir` `myrtle` |
+| [`upload/`](upload/) | Unrestricted file upload | `elder` `nara` `osage` |
+| [`xss/`](xss/) | Cross-site scripting | `hemlock` `hickorynut` `holly` `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `thuja` `tulipwood` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` `viburnum` `vochysia` `walnut` `whitebeam` `willow` `wisteria` `ximenia` |
+| [`authz/`](authz/) | Broken access control | `boxwood` `buckthorn` `butternut` `cacao` `catalpa` `fir` `ginkgo` `guava` `hawthorn` `ipecac` `myrtle` `oak` |
 | [`idor/`](idor/) | Insecure direct object reference | `cherry` `chestnut` `clementine` `coffee` `cottonwood` `laurel` `mangrove` |
-| [`ssrf/`](ssrf/) | Server-side request forgery | `hackberry` |
-| [`bizlogic/`](bizlogic/) | Business-logic flaws | `gooseberry` `sumac` `sycamore` |
-| [`cmdi/`](cmdi/) | OS command injection | `feijoa` `frangipani` `hickory` |
+| [`ssrf/`](ssrf/) | Server-side request forgery | `hackberry` `olive` `oregon` |
+| [`bizlogic/`](bizlogic/) | Business-logic flaws | `gooseberry` `ozark` `sumac` `sycamore` |
+| [`cmdi/`](cmdi/) | OS command injection | `feijoa` `frangipani` `hickory` `neem` `nutmeg` `nyalla` |
 | [`leak/`](leak/) | Information disclosure / source leak | `sassafras` `sequoia` |
 | [`xxe/`](xxe/) | XML external entity injection | `spruce` `linden` `maple` |
 | [`nosql/`](nosql/) | NoSQL / document-query injection | `hazel` |
@@ -72,10 +72,17 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`lfi/crabapple`](lfi/crabapple/) | LFI · upload to web root · inclusion endpoint | 19026 | 2/5 | 1–5 min | **1455 s** | `ea4a067f` |
 | [`lfi/cypress`](lfi/cypress/) | LFI · `'../'` strip bypass · User-Agent log poisoning | 19027 | 3/5 | 3–10 min | **640 s** | `e8c86dd3` |
 | [`lfi/durian`](lfi/durian/) | Traversal · alias misconfig · single dot-dot escape | 19028 | 2/5 | 1–5 min | **77 s** | `c6cc325e` |
+| [`lfi/padauk`](lfi/padauk/) | LFI (static-resource include, direct read) | 28961 | 1/5 | 0.5-3 min | **44 s (black-box run)** | `14809859` |
+| [`lfi/pecan`](lfi/pecan/) | path traversal (httpd 2.4.50 alias decode mismatch) | 28962 | 2/5 | 1.5-4 min | **~1 min (black-box run; CVE table match, double-encode one-shot)** | `d55c7ee6` |
+| [`lfi/persimmon`](lfi/persimmon/) | LFI -> RCE (access-log poisoning) | 28963 | 2/5 | 1.5-4 min | **~10 min (black-box run; the overrun was a payload-environment pitfall tax, adjudicated non-target fault)** | `36cc6163` |
+| [`lfi/poplar`](lfi/poplar/) | LFI (directory-policy read denial bypass) | 28964 | 2/5 | 1.5-4 min | **3 min 45 s (black-box run)** | `8d43e71d` |
+| [`lfi/teak`](lfi/teak/) | RFI (unauthenticated plugin include sink) | 28965 | 3/5 | 4-15 min | **7 min 48 s (first flag, machine-clock delta from brief; within band)** | `99e3301c` |
 | [`deser/cedar`](deser/cedar/) | Pickle deserialization RCE | 18943 | 2/5 | 3–15 min | —¹ | `c6e50c0e` |
 | [`deser/ebony`](deser/ebony/) | Deser · remember-me cookie · PHP object trust | 19029 | 2/5 | 1–5 min | **192 s** | `40280f24` |
 | [`deser/elm`](deser/elm/) | Deser · bookmarks cookie · full-load YAML tags | 19030 | 3/5 | 3–10 min | **556 s** | `7ecda43e` |
 | [`upload/elder`](upload/elder/) | Upload filter bypass → RCE | 18945 | 2/5 | 3–15 min | —¹ | `e63fb506` |
+| [`upload/nara`](upload/nara/) | unrestricted file upload + PHP exec (flag in app environment) | 28955 | 2/5 | 3-15 min | **29 s (black-box run; entry-point GET, upload lane never needed)** | `a64ed452` |
+| [`upload/osage`](upload/osage/) | auth (default creds) + upload execution | 28959 | 2/5 | 3-15 min | **7 min 20 s (black-box run; ~6 min weak-credential enumeration tax)** | `a7bc4b0d` |
 | [`xss/kauri`](xss/kauri/) | XSS · reflected · dialog-blacklist bypass | 18952 | 3/5³ | 3–15 min | **1210 s**³ | `3e9998d1` |
 | [`xss/mahogany`](xss/mahogany/) | XSS · blind · one-word ban + latency oracle | 18958 | 2/5 | 3–15 min | **111 s** | `cff28af3` |
 | [`xss/quandong`](xss/quandong/) | XSS · case-sensitive sanitizer bypass | 18977 | 1/5 | 0.5–3 min | **103 s** | `3ee92f4e` |
@@ -101,12 +108,17 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`deser/empress`](deser/empress/) | Deser · session cookie object trust | 28901 | 2/5 | 5–10 min | **382 s** | `c1242e88` |
 | [`deser/eucalyptus`](deser/eucalyptus/) | Deser · phar metadata chain · two services | 28902 | 3/5 | 30–60 min | **2852 s** | `b4f3e6c1` |
 | [`ssrf/hackberry`](ssrf/hackberry/) | SSRF · configurable gateway · internal eval chain | 28909 | 3/5 | 10–20 min | **827 s** | `d3fef55c` |
+| [`ssrf/olive`](ssrf/olive/) | SSRF (two-service internal pivot) | 28957 | 2/5 | 3-15 min | **38 s (black-box run)** | `dfa402bf` |
+| [`ssrf/oregon`](ssrf/oregon/) | SSRF (server-side URL fetch & render) | 28958 | 2/5 | 3-15 min | **1 min 57 s (black-box run)** | `497b8681` |
 | [`ssti/fig`](ssti/fig/) | Expression injection · OGNL eval in message form | 28904 | 3/5 | 1–5 min | **112 s** | `626a7cc6` |
 | [`leak/sassafras`](leak/sassafras/) | Source leak · hardcoded creds on the source face · replayed on an SSH side door | 28911 | 2/5 | 1–5 min | **8 s** | `4d1a475e` |
 | [`leak/sequoia`](leak/sequoia/) | Source leak · browsable object store on a second port · base64 passed off as encryption | 28912 | 3/5 | 3–10 min | **same second ⁵** | `d3572a9d` |
 | [`xxe/spruce`](xxe/spruce/) | XXE · SVG upload parser trusts external entities · local file read in the echo | 28913 | 2/5 | 1–5 min | **27 s** | `947a9c8d` |
+| [`bizlogic/ozark`](bizlogic/ozark/) | business logic (identity parameter overwrite) | 28960 | 2/5 | 3-15 min | **3 min 5 s (black-box run)** | `a3bb9409` |
 | [`bizlogic/sumac`](bizlogic/sumac/) | Logic · browser-side puzzle gate · the server never asks if you solved it | 28914 | 1/5 | 0.5–3 min | **19 s** | `78e0badc` |
 | [`bizlogic/sycamore`](bizlogic/sycamore/) | Logic · internal-origin header gate · forge the source address, walk right in | 28915 | 1/5 | 0.5–3 min | **6 s** | `d29a4fcf` |
+| [`xss/thuja`](xss/thuja/) | XSS (zero-filter, hidden POST delivery channel) | 28967 | 2/5 | 1.5-4 min | **8 min 47 s (machine-clock delta; both sibling flags landed in the same delivery)** | `fbc71bd0` |
+| [`xss/tulipwood`](xss/tulipwood/) | XSS (script-tag filter bypass, headless judge) | 28966 | 2/5 | 1.5-4 min | **8 min 47 s (machine-clock delta from brief to flag)** | `c8d80688` |
 | [`xss/tupelo`](xss/tupelo/) | XSS filter bypass · blacklisted dialog field on a POST form · unfamous event handler gets through | 28916 | 3/5 | 4–15 min | **22 s** | `5de17c30` |
 | [`xss/ugni`](xss/ugni/) | XSS filter bypass · same wordlist on a GET parameter · quote-shape escape, dialog fires | 28917 | 3/5 | 4–15 min | **same request ⁵** | `f5cac2e2` |
 | [`xss/umeboshi`](xss/umeboshi/) | XSS filter bypass · strictest wordlist of the family · double-encoding road to the dialog | 28918 | 4/5 | 6–20 min | **260 s** | `8414370c` |
@@ -134,6 +146,9 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`authz/fir`](authz/fir/) | JWT authz · demo login · role claim decoded but signature never verified · re-encoded badge opens the admin route | 28940 | 2/5 | 1–5 min | **8 min 01 s** (live black-box run, campaign triple-run segment) | `06c7e3c3` |
 | [`nosql/hazel`](nosql/hazel/) | NoSQL/GraphQL operator injection · search filter forwarded unquoted · hidden column exfiltration | 28941 | 2/5 | 1–5 min | **8 min 43 s** (live black-box run, campaign triple-run segment) | `e5854df8` |
 | [`cmdi/hickory`](cmdi/hickory/) | CMDi · service checker · separator blacklist with a space gap · operator mode of the helper script | 28944 | 2/5 | 1–5 min | **8 min 19 s** (live black-box run, campaign triple-run segment) | `c4d2b36e` |
+| [`cmdi/neem`](cmdi/neem/) | command injection (blind ping form) | 28952 | 2/5 | 3-15 min | **2 min 43 s (black-box run; 98-query blind time-oracle extraction, acceptor replay 251 queries/146.5 s as factory reference)** | `c2ea3e7a` |
+| [`cmdi/nutmeg`](cmdi/nutmeg/) | command injection (filtered echo ping) | 28953 | 2/5 | 3-15 min | **4 min 51 s (black-box run)** | `868da4ff` |
+| [`cmdi/nyalla`](cmdi/nyalla/) | command injection (reflected ping form) | 28954 | 1/5 | 3-15 min | **2 min 11 s (black-box run)** | `0c4850fa` |
 | [`smuggling/ironwood`](smuggling/ironwood/) | HTTP smuggling · haproxy → mitmproxy → apache, three parsers disagreeing · Host-rewritten inner vhost · desync differential to the flag | 28945 | 3/5 | 3–10 min | **85 min 15 s** ⁷ (live face clock, claim to flag) | `4c1ef7ee` |
 | [`crypto/juniper`](crypto/juniper/) | Padding oracle · AES-CBC captcha cookie · error messages leak padding validity · block-by-block decrypt without the key | 28946 | 3/5 | 3–10 min | **23 min 40 s** (live face clock, clean window, campaign double-run segment) | `cbec4f4a` |
 | [`idor/laurel`](idor/laurel/) | IDOR · profile form accepts an admin flag you were not meant to write · one request to privilege | 28947 | 2/5 | 1–5 min | **23 s** (burst segment, machine clock; batch closeout Sum=2211 s closed) | `173d0f4c` |
@@ -141,6 +156,7 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`idor/mangrove`](idor/mangrove/) | IDOR · sequential object ids · ownership never checked on read · walk the neighbors' records | 28949 | 1/5 | 0.5–3 min | **18 s** (burst segment, machine clock; batch closeout Sum=913 s closed) | `d3c4c06a` |
 | [`xxe/maple`](xxe/maple/) | XXE · lookup service parses your XML · file contents echoed through the response | 28950 | 2/5 | 1–5 min | **615 s** (burst segment, machine clock; batch closeout Sum=913 s closed) | `6d013f3d` |
 | [`authz/myrtle`](authz/myrtle/) | Broken access control · hidden boolean parameter the form never renders · one POST and you are admin | 28951 | 1/5 | 0.5–3 min | **23 s** (burst segment, machine clock; batch closeout Sum=913 s closed) | `f476221d` |
+| [`authz/oak`](authz/oak/) | authz (cookie identity, object-level miss) | 28956 | 1/5 | 3-15 min | **6 min (black-box run; ~5 min of it is identity-value enumeration)** | `5fbae289` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next

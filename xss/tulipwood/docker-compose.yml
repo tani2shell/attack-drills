@@ -1,0 +1,31 @@
+# attack-drills/tulipwood - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-tulipwood
+services:
+  web:
+    build:
+      context: ./app
+      secrets:
+        - flag
+    image: xss-drill-tulipwood:latest
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28966}:5000"
+    cpus: "1.0"
+    mem_limit: 768m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib2; urllib2.urlopen('http://127.0.0.1:5000/')\" || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks: [lab]
+
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.196.0/24}

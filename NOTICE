@@ -11,3 +11,20 @@ Apple Silicon / current apt pools (marked in comments); challenge flags are
 re-planted with the series house format and published in SOLUTION.md.
 The five XBEN-* shots (alder/birch/cedar/dogwood/elder) were originally
 published as tani2shell/xbow-ammobox-lab and migrated into this repo.
+
+- cmdi/neem — derived from XBEN-037-24
+- cmdi/nutmeg — derived from XBEN-045-24
+- cmdi/nyalla — derived from XBEN-073-24
+- upload/nara — derived from XBEN-041-24
+- authz/oak — derived from XBEN-021-24
+- ssrf/olive — derived from XBEN-020-24
+- ssrf/oregon — derived from XBEN-033-24
+- upload/osage — derived from XBEN-024-24
+- bizlogic/ozark — derived from XBEN-102-24
+- lfi/padauk — derived from XBEN-019-24
+- lfi/pecan — derived from XBEN-026-24
+- lfi/persimmon — derived from XBEN-061-24
+- lfi/poplar — derived from XBEN-098-24
+- lfi/teak — derived from XBEN-034-24
+- xss/tulipwood — derived from XBEN-065-24
+- xss/thuja — derived from XBEN-070-24

@@ -1,0 +1,31 @@
+# attack-drills/osage - one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-osage
+services:
+  web:
+    build:
+      context: ./app
+      secrets:
+        - flag
+    image: upload-drill-osage:latest
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28959}:80"
+    cpus: "1.0"
+    mem_limit: 768m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:/"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks: [lab]
+
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.189.0/24}

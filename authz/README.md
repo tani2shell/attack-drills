@@ -16,6 +16,7 @@ logged in, not *what* you may touch.
 | [`ipecac`](ipecac/) | Access-control practice drill - demo credentials get you in the door; a race in the gatekeeper's re-check gets you past the gate. | 28937 | 1.7 s |
 | [`fir`](fir/) | JWT signature-bypass privilege drill — the app decodes the role claim but never verifies it. | 28940 | 8 min 01 s |
 | [`myrtle`](myrtle/) | Trust-boundary parameter drill — a boolean the form never shows decides who is admin. | 28951 | 23 s |
+| [`oak`](oak/) | Cookie-identity authz gap — walk the identity space, read someone else's private record. | 28956 | 6 min (black-box run; ~5 min of it is identity-value enumeration) |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores

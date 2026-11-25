@@ -6,6 +6,7 @@ sequence is what lies.
 | Drill | One-line | Port | Measured |
 |---|---|---|---|
 | [`gooseberry`](gooseberry/) | Business-logic practice drill - the login check juggles types, and an array slides straight through the string comparison. | 28907 | 78 s |
+| [`ozark`](ozark/) | Profile-update business logic — overwrite the identity field on the wire and read back. | 28960 | 3 min 5 s (black-box run) |
 | [`sumac`](sumac/) | Business-logic practice drill — browser-side puzzle gate · the server never asks if you solved it — the server never asks if you solved it. | 28914 | 19 s |
 | [`sycamore`](sycamore/) | Business-logic practice drill — internal-origin header gate · forge the source address, walk right in — forge the source address, walk right in. | 28915 | 6 s |
 
