@@ -5,7 +5,7 @@ services:
       context: ./app/skumodel-srv
       secrets: [flag]
     ports:
-      - "127.0.0.1:${SKU_PORT:-28941}:4455"
+      - "127.0.0.1:${SKU_PORT:-28968}:4455"
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:4455/index.php"]
       interval: 15s
