@@ -10,6 +10,8 @@ identifiers and cookies taken at face value.
 | [`clementine`](clementine/) | IDOR practice drill - draft ids are sequential and the edit screen forgets to ask who owns the draft. | 19023 | 43 s |
 | [`coffee`](coffee/) | IDOR practice drill - object ids look random until you notice the timestamp hiding in front of them. | 19024 | 393 s |
 | [`cottonwood`](cottonwood/) | IDOR practice drill - the session cookie is encrypted but not signed; one flipped block and you are someone else. | 19025 | 571 s |
+| [`laurel`](laurel/) | Object-level access-control drill — the profile form lets you write your own admin flag. | 28947 | 23 s |
+| [`mangrove`](mangrove/) | Broken access control drill — object ids are sequential and ownership is unchecked on read. | 28949 | 18 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores

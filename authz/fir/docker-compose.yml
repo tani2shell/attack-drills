@@ -1,0 +1,31 @@
+# attack-drills/fir — one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-fir
+services:
+  web:
+    build:
+      context: ./app
+    secrets:
+      - flag
+    image: attack-drills/fir:latest
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28940}:5003"
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:5003/"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks: [lab]
+
+secrets:
+  flag:
+    file: ./flag.txt
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.171.0/24}

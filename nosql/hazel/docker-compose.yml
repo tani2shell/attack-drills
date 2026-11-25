@@ -1,0 +1,52 @@
+# attack-drills/hazel — one-shot lab (compose secret, no hardcoded flag)
+name: attack-drills-hazel
+services:
+  web:
+    build:
+      context: ./app
+    image: attack-drills/hazel:latest
+    secrets:
+      - flag
+    ports:
+      - "127.0.0.1:${HOST_PORT:-28941}:5003"
+    cpus: "1.0"
+    mem_limit: 1024m
+    restart: unless-stopped
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/viewtheadmins
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:5003/"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks: [lab]
+  mongo:
+    image: mongo:latest
+    cpus: "0.5"
+    mem_limit: 768m
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+    networks: [lab]
+
+secrets:
+  flag:
+    file: ./flag.txt
+volumes:
+  mongo-data:
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.31.172.0/24}

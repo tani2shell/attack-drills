@@ -24,13 +24,16 @@ One folder per attack surface, one subdirectory per drill:
 | [`deser/`](deser/) | Insecure deserialization | `cedar` `ebony` `elm` `empress` `eucalyptus` `hornbeam` |
 | [`upload/`](upload/) | Unrestricted file upload | `elder` |
 | [`xss/`](xss/) | Cross-site scripting | `kauri` `mahogany` `quandong` `quebracho` `quenepa` `quince` `tupelo` `ugni` `umeboshi` `uva` `velvetwood` `viburnum` `vochysia` `walnut` `whitebeam` `willow` `wisteria` `ximenia` `hemlock` `holly` `hickorynut` |
-| [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` `ipecac` |
-| [`idor/`](idor/) | Insecure direct object reference | `cherry` `chestnut` `clementine` `coffee` `cottonwood` |
+| [`authz/`](authz/) | Broken access control | `boxwood` `butternut` `buckthorn` `cacao` `catalpa` `ginkgo` `guava` `hawthorn` `ipecac` `fir` `myrtle` |
+| [`idor/`](idor/) | Insecure direct object reference | `cherry` `chestnut` `clementine` `coffee` `cottonwood` `laurel` `mangrove` |
 | [`ssrf/`](ssrf/) | Server-side request forgery | `hackberry` |
 | [`bizlogic/`](bizlogic/) | Business-logic flaws | `gooseberry` `sumac` `sycamore` |
-| [`cmdi/`](cmdi/) | OS command injection | `feijoa` `frangipani` |
+| [`cmdi/`](cmdi/) | OS command injection | `feijoa` `frangipani` `hickory` |
 | [`leak/`](leak/) | Information disclosure / source leak | `sassafras` `sequoia` |
-| [`xxe/`](xxe/) | XML external entity injection | `spruce` |
+| [`xxe/`](xxe/) | XML external entity injection | `spruce` `linden` `maple` |
+| [`nosql/`](nosql/) | NoSQL / document-query injection | `hazel` |
+| [`smuggling/`](smuggling/) | HTTP request smuggling | `ironwood` |
+| [`crypto/`](crypto/) | Cryptographic oracles | `juniper` |
 
 Every drill ships a black-box brief (`CHALLENGE.md`), one-command factory
 reset (`RESET.sh`), `docker-compose.yml`, and a `.env.example` carrying
@@ -128,6 +131,16 @@ walkthrough with the kill chain; wave-C shots ship no write-up — their
 | [`authz/ipecac`](authz/ipecac/) | Broken access control · demo creds · concurrent-login race on the session re-read · privilege window to admin read | 28937 | 3/5 | 3–10 min | **1.7 s** ⁶ (second replay 5.6 s) | `d3424f71` |
 | [`ssti/jacaranda`](ssti/jacaranda/) | SSTI · weak login · expression eval through the template context · object walk to command execution | 28938 | 3/5 | 3–10 min | **0.1 s** ⁶ | `67d93220` |
 | [`ssti/acacia`](ssti/acacia/) | SSTI · three-step sign-up · name field spliced into the invitation template · render-context disclosure | 28939 | 3/5 | 3–10 min | **1 min 57 s** strict anchor (class-hinted first-contact run 8 min 37 s) | `55a35d11` |
+| [`authz/fir`](authz/fir/) | JWT authz · demo login · role claim decoded but signature never verified · re-encoded badge opens the admin route | 28940 | 2/5 | 1–5 min | **8 min 01 s** (live black-box run, campaign triple-run segment) | `06c7e3c3` |
+| [`nosql/hazel`](nosql/hazel/) | NoSQL/GraphQL operator injection · search filter forwarded unquoted · hidden column exfiltration | 28941 | 2/5 | 1–5 min | **8 min 43 s** (live black-box run, campaign triple-run segment) | `e5854df8` |
+| [`cmdi/hickory`](cmdi/hickory/) | CMDi · service checker · separator blacklist with a space gap · operator mode of the helper script | 28944 | 2/5 | 1–5 min | **8 min 19 s** (live black-box run, campaign triple-run segment) | `c4d2b36e` |
+| [`smuggling/ironwood`](smuggling/ironwood/) | HTTP smuggling · haproxy → mitmproxy → apache, three parsers disagreeing · Host-rewritten inner vhost · desync differential to the flag | 28945 | 3/5 | 3–10 min | **85 min 15 s** ⁷ (live face clock, claim to flag) | `4c1ef7ee` |
+| [`crypto/juniper`](crypto/juniper/) | Padding oracle · AES-CBC captcha cookie · error messages leak padding validity · block-by-block decrypt without the key | 28946 | 3/5 | 3–10 min | **23 min 40 s** (live face clock, clean window, campaign double-run segment) | `cbec4f4a` |
+| [`idor/laurel`](idor/laurel/) | IDOR · profile form accepts an admin flag you were not meant to write · one request to privilege | 28947 | 2/5 | 1–5 min | **23 s** (burst segment, machine clock; batch closeout Sum=2211 s closed) | `173d0f4c` |
+| [`xxe/linden`](xxe/linden/) | XXE · SOAP parser fetches external entities · name any file, the echo reads it back | 28948 | 2/5 | 1–5 min | **20 s** (burst segment, machine clock; batch closeout Sum=2211 s closed) | `d666d220` |
+| [`idor/mangrove`](idor/mangrove/) | IDOR · sequential object ids · ownership never checked on read · walk the neighbors' records | 28949 | 1/5 | 0.5–3 min | **18 s** (burst segment, machine clock; batch closeout Sum=913 s closed) | `d3c4c06a` |
+| [`xxe/maple`](xxe/maple/) | XXE · lookup service parses your XML · file contents echoed through the response | 28950 | 2/5 | 1–5 min | **615 s** (burst segment, machine clock; batch closeout Sum=913 s closed) | `6d013f3d` |
+| [`authz/myrtle`](authz/myrtle/) | Broken access control · hidden boolean parameter the form never renders · one POST and you are admin | 28951 | 1/5 | 0.5–3 min | **23 s** (burst segment, machine clock; batch closeout Sum=913 s closed) | `f476221d` |
 
 ¹ Wave-A-batch imports solved as a suite (5/5 first blood, band 3–15 min,
 median ≈ 5m20s); per-drill stopwatch values are being backfilled on the next
@@ -149,6 +162,11 @@ policy the run is booked without a stopwatch figure.
 ⁶ Payload-to-flag replay time from the closeout black-box replay (internal
 timing record), not a fresh solver's wall-clock solve; `ipecac`'s race window
 makes every replay a different roll — its second closeout replay booked 5.6 s.
+
+⁷ Live face-clock wall time booked claim-to-flag, including a 302 s
+recovery-tax segment; the upstream benchmark rates this shot `hard`, so the
+solve sits above the design band — published as measured, band kept at the
+factory tier.
 
 Ports are unique across the whole repo — arm several drills at once if your
 box can take it. Flags follow the house format `FLAG{xbow_<drill>_<24 hex>}`

@@ -14,6 +14,8 @@ logged in, not *what* you may touch.
 | [`guava`](guava/) | Access-control practice drill - the login form compares password hashes with loose typing, and a magic 0e hash logs you in. | 28908 | 42.2 s |
 | [`hawthorn`](hawthorn/) | Access-control practice drill - roles are asserted client-side and the second factor stamps whatever you send it. | 28910 | 2044.6 s |
 | [`ipecac`](ipecac/) | Access-control practice drill - demo credentials get you in the door; a race in the gatekeeper's re-check gets you past the gate. | 28937 | 1.7 s |
+| [`fir`](fir/) | JWT signature-bypass privilege drill — the app decodes the role claim but never verifies it. | 28940 | 8 min 01 s |
+| [`myrtle`](myrtle/) | Trust-boundary parameter drill — a boolean the form never shows decides who is admin. | 28951 | 23 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores

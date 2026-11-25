@@ -7,6 +7,7 @@ still inside the quotes.
 |---|---|---|---|
 | [`feijoa`](feijoa/) | Command-injection practice drill - a WordPress plugin panel pipes form values straight into a shell. | 28903 | 1580 s |
 | [`frangipani`](frangipani/) | Command-injection practice drill - the URL validator pings whatever you paste; shell separators do the rest. | 28905 | 201 s |
+| [`hickory`](hickory/) | Command-injection blacklist bypass drill — the filter blocks separators but not spaces. | 28944 | 8 min 19 s |
 
 Arm any drill: `cd <drill> && cp .env.example .env && docker compose up -d
 --build`, then shoot at `http://127.0.0.1:<port>`. `./RESET.sh` restores
