@@ -10,6 +10,14 @@ autonomous AI pentest agent before it shipped. Unlike a story-driven lab, a
 agent's measured solve time next to its design-time difficulty band — so you
 know exactly how sharp your tooling (or your skills) really are.
 
+> **Acknowledgments** — these drills are re-planted derivatives of the open
+> [xbow-engineering/validation-benchmarks](https://github.com/xbow-engineering/validation-benchmarks)
+> benchmark suite by [XBOW](https://xbow.com), an autonomous AI penetration
+> testing company. Big thanks to the XBOW team for publishing it (Apache-2.0):
+> their suite is the yardstick this whole series was trained and calibrated on.
+> Every drill was renamed, re-flagged and rebuilt, then broken black-box by our
+> own AI agent — see [Provenance & license](#provenance--license).
+
 **EN** (this file) · [日本語](#日本語) · [中文](#中文)
 
 ## Layout
@@ -221,7 +229,7 @@ Packaging source code: MIT — see [`LICENSE`](LICENSE).
 
 玩法:进目录 → `cp .env.example .env` → `docker compose up -d --build` → 打 `127.0.0.1:<端口>` → `./RESET.sh` 复位。旗值公开:早期波随题解 SOLUTION.md 发布,wave C 起以 base64 随 `.env.example` 交付(解码后对 `CHALLENGE.md` 里的 sha256 锚点验旗)。
 
-上游来源:[xbow-engineering/validation-benchmarks](https://github.com/xbow-engineering/validation-benchmarks)(Apache-2.0),全部经换旗重烘焙+不透明改名+重建后发布;打包代码 MIT。
+上游来源:[xbow-engineering/validation-benchmarks](https://github.com/xbow-engineering/validation-benchmarks)(Apache-2.0),全部经换旗重烘焙+不透明改名+重建后发布;打包代码 MIT。**鸣谢**:感谢 [XBOW](https://xbow.com) 团队开源这套 benchmark——本系列全部题目以此为标定基准,每发均经我方 AI agent 黑盒重新打穿后出厂。
 
 ## 日本語
 
@@ -229,4 +237,4 @@ Packaging source code: MIT — see [`LICENSE`](LICENSE).
 
 遊び方:ドリル目录で `cp .env.example .env` → `docker compose up -d --build` → `127.0.0.1:<ポート>` を攻略 → `./RESET.sh` で工場復元。フラグ値は公開(初期ウェーブはSOLUTION.md、wave C以降は.env.exampleにbase64同梱——デコード後CHALLENGE.mdのsha256アンカーで検証)。
 
-上流:[xbow-engineering/validation-benchmarks](https://github.com/xbow-engineering/validation-benchmarks)(Apache-2.0)由来のベンチマークを、フラグ再植・改名・再ビルドして派生公開。パッケージ部は MIT。
+上流:[xbow-engineering/validation-benchmarks](https://github.com/xbow-engineering/validation-benchmarks)(Apache-2.0)由来のベンチマークを、フラグ再植・改名・再ビルドして派生公開。パッケージ部は MIT。**謝辞**: [XBOW](https://xbow.com) チームに感謝——本シリーズは同社のオープンベンチマークを校正基準としており、全ドリルを自社AIエージェントのブラックボックス撃破検証後に出荷しています。
